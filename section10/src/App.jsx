@@ -1,5 +1,5 @@
 
-import { useState, useRef , useReducer} from 'react'
+import { useState, useRef , useReducer ,useCallback} from 'react'
 import './App.css'
 import Editor from './Components/Editor'
 import Header from './Components/Header'
@@ -45,7 +45,7 @@ function App() {
   const [todos, dispatch] = useReducer(reducer,mockData);
   const idRef = useRef(3);
 
-  const onCreate = (content)=>{
+  const onCreate = useCallback((content)=>{
    dispatch({
     type : "CREATE",
     data : {
@@ -55,27 +55,26 @@ function App() {
       date : new Date().getTime(),
     },
    });
-;
-  }
+  },[] )
 
 
-  const onUpdate = (targetId) => {
+  const onUpdate = useCallback((targetId) => {
     dispatch({
       type: "UPDATE",
       targetId : targetId
-    })
-};
+    });
+},[])
 
 
-    const onDelete = (targetId) => {
-      dispatch({
-        type : "DELETE",
-        targetId : targetId,
-      });
-    };
+  const onDelete = useCallback((targetId)=>{
+     dispatch({
+      type: "UPDATE",
+      targetId : targetId,
+    });
+  },[])
 
 
-    
+
 
   return (
     <div className='App'>
@@ -90,3 +89,7 @@ function App() {
 }
 
 export default App;
+
+// 1. 기능구현 -> 2. 최적화
+// 모든 것들에 최적화 적용 x
+// 최적화가 꼭 되어야 할 것 같은 것에만 하기
