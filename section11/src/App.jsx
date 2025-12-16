@@ -1,5 +1,5 @@
 
-import { useState, useRef , useReducer ,useCallback ,createContext } from 'react'
+import { useState, useRef , useReducer ,useCallback ,createContext , useMemo } from 'react'
 import './App.css'
 import Editor from './Components/Editor'
 import Header from './Components/Header'
@@ -40,8 +40,8 @@ function reducer(state, action){
 
 }
 
-export const TodoContext = createContext(); // 보통 이렇게 컴퍼넌트 외부에 선언
-
+export const TodoStateContext = createContext();
+export const TodoDispatchContext = createContext();
 
 
 function App() {
@@ -79,23 +79,21 @@ function App() {
   },[]);
 
 
-
+  const memoizedDispatch = useMemo(()=>{
+    return {onCreate,onDelete,onUpdate}
+  },[]);
 
   return (
     <div className='App'>
     <Header/>
-    <TodoContext.Provider value={{
-      todos,
-      onCreate,
-      onUpdate,
-      onDelete,
-    }}>
+
+<TodoStateContext.Provider value={todos}>
+  <TodoDispatchContext.Provider value={{memoizedDispatch}}
+  >
       <Editor />
-      <List 
-      todos={todos} 
-      onUpdate={onUpdate} 
-      onDelete={onDelete}/>
-    </TodoContext.Provider>
+      <List />
+  </TodoDispatchContext.Provider>
+  </TodoStateContext.Provider>    
     </div>
   );
 }
