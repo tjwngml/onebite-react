@@ -5,7 +5,7 @@ import { TodoStateContext } from '../App';
 
 
 function List(){
-  const {todos} = useContext(TodoStateContext);
+  const todos = useContext(TodoStateContext);
   const [search, setSearch] = useState("");
 
   const onChangeSearch = (e) => {
