@@ -1,6 +1,7 @@
-import { use, useState , useMemo} from 'react';
+import { use, useState , useMemo, memo} from 'react';
 import './List.css';
 import TodoItem from './TodoItem';
+
 
 function List({todos, onUpdate , onDelete}){
   const [search, setSearch] = useState("");

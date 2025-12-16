@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import './Header.css';
 
 function Header(){
@@ -9,4 +10,8 @@ function Header(){
   );
 }
 
-export default Header;
+// const memoizedHeader = memo(Header)
+// Header의 props가 변경되지 않았을 때는 리렌더링 하지 않음
+// 최적화하여 memoizedHeader 로 반환
+
+export default memo(Header);
